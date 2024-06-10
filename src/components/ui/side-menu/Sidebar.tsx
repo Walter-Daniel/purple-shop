@@ -1,28 +1,51 @@
 'use client'
 
+import { userUiStore } from '@/store';
+import clsx from 'clsx';
 import Link from 'next/link';
-import { IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoPeopleOutline, IoPersonOutline, IoSearchOutline, IoShirtOutline, IoTicketOutline } from 'react-icons/io5';
+import { IoCloseOutline, IoSearchOutline } from 'react-icons/io5';
+import { userLinks, adminLinks } from './Links';
 
 export const Sidebar = () => {
+
+    const isSideMenuOpen = userUiStore( state => state.isSideMenuOpen );
+    const closeSideMenu = userUiStore( state => state.CloseSideMenu);
+
   return (
     <div className=''>
         {/* BACKGROUND */}
-        <div 
-            className='fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-20'
-        />
+        {
+            isSideMenuOpen && (
+                <div 
+                    className='fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-20'
+                />
+            )
+        }
 
         {/* BLUR */}
-        <div 
-            className='fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-blur-sm backdrop-filter'
-        />
+        {
+            isSideMenuOpen && (
+                <div 
+                    onClick={() => closeSideMenu()}
+                    className='fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-blur-sm backdrop-filter'
+                />
+            )
+        }
 
         {/* SIDEBAR */}
         <nav 
-            className='fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300'>
+            className={
+                clsx(
+                    'fixed p-5 right-0 top-0 w-[375px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300',
+                    {
+                        'translate-x-full': !isSideMenuOpen
+                    }
+                )
+            }>
             <IoCloseOutline 
-                size={50}
+                size={30}
                 className='absolute top-5 right-5 cursor-pointer'
-                onClick={() => console.log('click')}
+                onClick={() => closeSideMenu()}
             />
 
             {/* INPUT */}
@@ -37,59 +60,36 @@ export const Sidebar = () => {
 
             {/* MENU */}
 
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoPersonOutline size={20} />
-                <span className='ml-3'>Profile</span>
-            </Link>
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoTicketOutline size={20} />
-                <span className='ml-3'>Orders</span>
-            </Link>
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoLogInOutline size={20} />
-                <span className='ml-3'>Sign in</span>
-            </Link>
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoLogOutOutline size={20} />
-                <span className='ml-3'>Logout</span>
-            </Link>
+            {
+                userLinks.map((item, index) => (
+                    <Link 
+                        key={index}
+                        href={item.url}
+                        className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
+                    >
+                        {item.icon}
+                        <span className='ml-3'>{item.title}</span>
+                    </Link>
+                ))
+            }
+          
 
             {/* Line separatos */}
             <div className='w-full h-px bg-gray-200 my-5'/>
 
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoShirtOutline size={20} />
-                <span className='ml-3'>Products</span>
-            </Link>
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoTicketOutline size={20} />
-                <span className='ml-3'>Orders</span>
-            </Link>
-            <Link 
-                href='/'
-                className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-            >
-                <IoPeopleOutline size={20} />
-                <span className='ml-3'>Users</span>
-            </Link>
+            {
+                adminLinks.map((item, index) => (
+                    <Link 
+                        key={index}
+                        href={item.url}
+                        className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
+                    >
+                        {item.icon}
+                        <span className='ml-3'>{item.title}</span>
+                    </Link>
+                ))
+            }
+          
 
         </nav>
 
