@@ -73,7 +73,6 @@ export const Sidebar = () => {
                 ))
             }
           
-
             {/* Line separatos */}
             <div className='w-full h-px bg-gray-200 my-5'/>
 
@@ -89,10 +88,7 @@ export const Sidebar = () => {
                     </Link>
                 ))
             }
-          
-
         </nav>
-
     </div>
   )
 }
