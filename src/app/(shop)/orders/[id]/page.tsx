@@ -1,7 +1,9 @@
-import { QuantitySelector, Title } from "@/components";
+import { Title } from "@/components";
 import { initialData } from "@/seed/seed";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
+import { IoArrowBackCircleOutline, IoCardOutline } from "react-icons/io5";
 
 const productsInCart = [
   initialData.products[0],
@@ -9,16 +11,38 @@ const productsInCart = [
   initialData.products[2]
 ]
 
-export default function CheckoutPage() {
+interface Props {
+  params:{
+    id: string;
+  }
+}
+
+export default function OrderByIdPage( { params }: Props ) {
+
+  const { id } = params;
+  //todo: verficated
+  //redirect
+
   return (
     <div className='flex justify-center items-center mb-72 px-10 sm:px-0'>
       <div className="flex flex-col w-[1000px]">
-        <Title title="check order" />
+        <Title title={`Order #${id}`} />
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
           {/* CHECKOUT */}
           <div className="flex flex-col mt-5">
-            <span>Need to edit your products? Click here:</span>
-            <Link href="/cart" className="underline mb-5">Edit cart</Link>
+            <div className={
+              clsx(
+                "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
+                {
+                  'bg-red-500': false,
+                  'bg-green-700': 'true'
+                }
+              )
+            }>
+              <IoCardOutline size={30} />
+              {/* <span className="mx-2">Payment pending</span> */}
+              <span className="mx-2">Payment Completed</span>
+            </div>
           
           {/* ITEMS */}
           {
@@ -78,19 +102,26 @@ export default function CheckoutPage() {
 
             <div className="mt-5 mb-2 w-full">
 
-              <p className="mb-5">
-                <span className="text-xs">
-                  By confirming your order, you agree to our <a href="#" className="underline">terms and conditions</a>.
-                </span>
-              </p>
+              <div className={
+                clsx(
+                  "flex items-center rounded-lg py-2 px-3.5 text-xs font-bold text-white mb-5",
+                  {
+                    'bg-red-500': false,
+                    'bg-green-700': 'true'
+                  }
+                )
+              }>
+                <IoCardOutline size={30} />
+                {/* <span className="mx-2">Payment pending</span> */}
+                <span className="mx-2">Payment Completed</span>
+              </div>
 
-              <Link 
-                className="flex btn-primary justify-center"
-                href='/orders/123' >Confirm order</Link>
+              <Link href='/' className="font-semibold flex justify-end items-center gap-2 text-sm">
+                <IoArrowBackCircleOutline size={30} />
+                Back to Shopping
+              </Link>
+
             </div>
-
-
-
           </div>
         </div>
       </div>
