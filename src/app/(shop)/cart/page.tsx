@@ -2,6 +2,7 @@ import { QuantitySelector, Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 const productsInCart = [
   initialData.products[0],
@@ -10,15 +11,18 @@ const productsInCart = [
 ]
 
 export default function CartPage() {
+
+  // redirect('/empty')
+
   return (
     <div className='flex justify-center items-center mb-72 px-10 sm:px-0'>
       <div className="flex flex-col w-[1000px]">
         <Title title="Cart" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-16">
           {/* CHECKOUT */}
           <div className="flex flex-col mt-5">
             <span>Add items</span>
-            <Link href="/" className="underline mb-5">Buy</Link>
+            <Link href="/" className="underline mb-5">Continue Shopping</Link>
           
           {/* ITEMS */}
           {
@@ -38,10 +42,9 @@ export default function CartPage() {
                 <div className="w-full">
                   <p>{product.title}</p>
                   <p>${product.price}</p>
-                  <div className="flex justify-between mt-1">
+                  <div className="flex justify-between mt-5 items-center">
                     <QuantitySelector quantity={2}/>
                     <button className="underline">Remove</button>
-
                   </div>
                 </div>
               </div>
@@ -49,7 +52,7 @@ export default function CartPage() {
           }
           </div>
           {/* ORDER SUMMARY */}
-          <div className="bg-white rounded-xl shadow-xl p-7">
+          <div className="bg-white rounded-xl shadow-xl p-7 h-fit">
             <h2 className="text-xl mb-2">Order Summary</h2>
 
             <div className="grid grid-cols-2">
@@ -71,9 +74,6 @@ export default function CartPage() {
                 className="flex btn-primary justify-center"
                 href='/checkout/address' >Checkout</Link>
             </div>
-
-
-
           </div>
         </div>
       </div>
