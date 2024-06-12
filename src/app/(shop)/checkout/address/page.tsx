@@ -80,7 +80,7 @@ export default function AddressPage() {
             <Link 
               href='/checkout'
               className="btn-primary flex w-full sm:w-1/2 justify-center ">
-              Siguiente
+              Next
             </Link>
           </div>
 
