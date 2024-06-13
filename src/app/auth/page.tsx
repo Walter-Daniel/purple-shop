@@ -1,8 +1,8 @@
 
-export default function LoginPage() {
+export default function NamePage() {
   return (
     <div>
-      <h1>Login Page</h1>
+      <h1>Hello Page</h1>
     </div>
   );
 }
