@@ -4,11 +4,9 @@ import prisma from '../lib/prisma';
 async function main() {
 
     //1. delete preview data
-    await Promise.all([
-        prisma.product.deleteMany(),
-        prisma.productImage.deleteMany(),
-        prisma.category.deleteMany()
-    ]);
+    await prisma.product.deleteMany();
+    await prisma.productImage.deleteMany();
+    await prisma.category.deleteMany();
 
     const { categories, products } = initialData;
 
@@ -28,7 +26,6 @@ async function main() {
         return map;
     }, {} as Record<string, string>)
 
-
     //Products
 
     products.forEach(async(product) => {
@@ -42,7 +39,18 @@ async function main() {
             }
         })
 
-    })
+        //Images
+
+        const imagesData = images.map( image => ({
+            url: image,
+            productId: dbProduct.id
+        }));
+
+        await prisma.productImage.createMany({
+            data: imagesData
+        })
+
+    });
 
 
 
