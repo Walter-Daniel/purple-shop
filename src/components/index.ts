@@ -5,6 +5,7 @@ export * from './ui/side-menu/Sidebar';
 export * from './ui/title/Title';
 export * from './ui/top-menu/TopMenu';
 export * from './ui/footer/Footer';
+export * from './ui/pagination/Pagination';
 
 export * from './product/size-selector/SizeSelector';
 export * from './product/quantity-selector/QuantitySelector';
