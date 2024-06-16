@@ -4,8 +4,8 @@ import prisma from '../lib/prisma';
 async function main() {
 
     //1. delete preview data
-    await prisma.product.deleteMany();
     await prisma.productImage.deleteMany();
+    await prisma.product.deleteMany();
     await prisma.category.deleteMany();
 
     const { categories, products } = initialData;
