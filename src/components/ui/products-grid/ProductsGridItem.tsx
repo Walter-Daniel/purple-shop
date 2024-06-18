@@ -9,7 +9,7 @@ interface Props {
 export const ProductsGridItem = ( { product } : Props ) => {
   return (
     <div className='flex flex-col'>
-        <div className='rounded-md  fade-in overflow-hidden min-h-[80%]'>
+        <div className='rounded-md  fade-in overflow-hidden min-h-[80%] shadow-sm'>
             <Link href={`/product/${product.slug}`} className=' overflow-hidden'>
                 <Image
                     src={`/products/${ product.images[0] }`}

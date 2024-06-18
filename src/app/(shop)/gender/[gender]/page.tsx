@@ -35,8 +35,6 @@ export async function generateMetadata(
   }
 }
 
-
-
 export default async function CategoryPage({ searchParams, params }: Props ) {
 
   const gender = params.gender;
