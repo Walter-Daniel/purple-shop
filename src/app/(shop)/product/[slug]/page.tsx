@@ -5,13 +5,13 @@ import { ProductMobileSlideShow, ProductSlideShow, QuantitySelector, SizeSelecto
 import { titleFont } from '@/config/fonts';
 import { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
+import { AddToCart } from './_components/AddToCart';
 
 interface Props {
   params: {
     slug: string;
   }
 }
-
 
 export async function generateMetadata(
   { params }: Props,
@@ -37,7 +37,6 @@ export async function generateMetadata(
 export default async function ProductPage({ params }: Props) {
 
   const { slug } = params;
-
   const product = await getProductBySlug(slug)
 
   if( !product ) {
@@ -70,17 +69,8 @@ export default async function ProductPage({ params }: Props) {
           {product.title}
         </h1>
         <p className='text-lg mb-4'>${product.price}</p>
-      {/* SIZE SELECTOR */}
-        <SizeSelector availableSizes={product.sizes} selectedSize={product.sizes[0]} />
-      {/* AMOUNT SELECTOR */}
-        <QuantitySelector 
-          quantity={2}
-        />
 
-      {/* BUTTON */}
-      <button className='btn-primary my-5'>
-        Add to cart
-      </button>
+      <AddToCart product={product} />
 
       {/* DESCRIPTION */}
       <h3 className='font-bold text-sm'>Description</h3>
