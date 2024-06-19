@@ -1,14 +1,8 @@
-import { QuantitySelector, Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import Image from "next/image";
+import { Title } from "@/components";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-
-const productsInCart = [
-  initialData.products[0],
-  initialData.products[1],
-  initialData.products[2]
-]
+import { ProductsInCart } from "./_components/ProductsInCart";
+import { OrderSummary } from "./_components/OrderSummary";
 
 export default function CartPage() {
 
@@ -25,49 +19,13 @@ export default function CartPage() {
             <Link href="/" className="underline mb-5">Continue Shopping</Link>
           
           {/* ITEMS */}
-          {
-            productsInCart.map(product => (
-              <div key={product.slug} className="flex mb-7">
-                <Image 
-                  src={`/products/${ product.images[0] }`}
-                  alt={product.title}
-                  height={ 100 }
-                  width={ 100 }
-                  style={{
-                    height: '100px',
-                    width: '100px'
-                  }}
-                  className="mr-5 rounded"
-                />
-                <div className="w-full">
-                  <p>{product.title}</p>
-                  <p>${product.price}</p>
-                  <div className="flex justify-between mt-5 items-center">
-                    <QuantitySelector quantity={2}/>
-                    <button className="underline">Remove</button>
-                  </div>
-                </div>
-              </div>
-            ))
-          }
+          <ProductsInCart />
           </div>
           {/* ORDER SUMMARY */}
           <div className="bg-white rounded-xl shadow-xl p-7 h-fit">
             <h2 className="text-xl mb-2">Order Summary</h2>
-
-            <div className="grid grid-cols-2">
-              <span>Products</span>
-              <span className="text-right">3 items</span>        
-          
-              <span>Subtotal</span>
-              <span className="text-right">$100</span>
-               
-              <span>Sales tax</span>
-              <span className="text-right">$100</span>
-           
-              <span className="text-xl mt-5">Total</span>
-              <span className="text-xl mt-5 text-right">$100</span>
-            </div>
+            <OrderSummary />
+            
 
             <div className="mt-5 mb-2 w-full">
               <Link 
