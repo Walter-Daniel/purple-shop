@@ -11,9 +11,12 @@ export async function authenticate(
 ) {
   try {
 
-    await signIn('credentials', formData);
+    await signIn('credentials', {
+      ...Object.fromEntries(formData),
+      redirect: false,
+    });
 
-    return 'SignIn with credentials'
+    return 'Success'
     
   } catch (error) {
     if (error instanceof AuthError) {

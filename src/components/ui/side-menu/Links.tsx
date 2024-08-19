@@ -17,11 +17,6 @@ export const userLinks = [
         title: 'Orders',
         url: '/',
         icon: <IoTicketOutline />
-    },
-    {
-        title: 'Sign in',
-        url: '/auth/login',
-        icon: <IoLogInOutline />
     }
 ]
 

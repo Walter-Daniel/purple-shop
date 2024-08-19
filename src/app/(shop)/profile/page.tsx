@@ -13,12 +13,14 @@ export default async function ProfilePage() {
 
   return (
     <div>
-        <Title title="Perfil" />
+        <Title title="Profile" />
 
 
         <pre>{
             JSON.stringify( session.user, null, 2 )
         }</pre>
+
+        <h3 className="text-3xl">{session.user.role}</h3>
 
     </div>
   );

@@ -5,12 +5,22 @@ import { authenticate } from '@/actions';
 import { useFormState, useFormStatus } from "react-dom";
 import clsx from "clsx";
 import { IoInformationCircle } from "react-icons/io5";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
 
+  const router = useRouter();
     const [state, dispatch] = useFormState(authenticate, undefined);
 
-    console.log(state)
+    console.log({state})
+
+    useEffect(() => {
+      if( state === 'Success' ){
+        window.location.replace('/');
+      }
+    }, [state])
+    
 
   return (
     <form action={dispatch} className="flex flex-col">
@@ -26,12 +36,6 @@ export const LoginForm = () => {
           type="password" 
           name="password"/>
 
-        {/* <button
-          type="submit"
-          className="btn-primary">
-          Login
-        </button> */}
-
         <LoginButton />
 
         <div
@@ -39,7 +43,7 @@ export const LoginForm = () => {
           aria-live="polite"
           aria-atomic="true"
         >
-          {state === 'Invalid credentials.' || state === 'Something went wrong.' && (
+          {state === 'Invalid credentials.' && (
             <>
               <IoInformationCircle className="h-5 w-5 text-red-500" />
               <p className="text-sm text-red-500">{state}</p>
