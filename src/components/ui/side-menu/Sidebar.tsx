@@ -3,13 +3,24 @@
 import { userUiStore } from '@/store';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IoCloseOutline, IoSearchOutline } from 'react-icons/io5';
+import { IoCloseOutline, IoLogInOutline, IoLogOutOutline, IoSearchOutline } from 'react-icons/io5';
 import { userLinks, adminLinks } from './Links';
+import { logout } from '@/actions';
+import { useSession } from 'next-auth/react';
 
 export const Sidebar = () => {
 
     const isSideMenuOpen = userUiStore( state => state.isSideMenuOpen );
     const closeSideMenu = userUiStore( state => state.CloseSideMenu);
+
+    const { data:session } = useSession();
+    const isAuthenticated = !!session?.user;
+    const isAdmin = session?.user.role === 'admin';
+
+    const onLogout = async () => {
+        await logout();
+        window.location.replace('/')
+    }
 
   return (
     <div className=''>
@@ -59,34 +70,70 @@ export const Sidebar = () => {
             </div>
 
             {/* MENU */}
+           
+            {
+                !isAuthenticated && (
+                    
+                    <Link 
+                    href='/auth/login'
+                    onClick={() => closeSideMenu()}
+                    className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
+                    >
+                        <IoLogInOutline />
+                        <span className='ml-3'>Sign in</span>
+                    </Link>
+                )
+            }
 
             {
-                userLinks.map((item, index) => (
-                    <Link 
-                        key={index}
-                        href={item.url}
-                        className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-                    >
-                        {item.icon}
-                        <span className='ml-3'>{item.title}</span>
-                    </Link>
-                ))
+                isAuthenticated && (
+
+                    <>
+                        {
+                            userLinks.map((item, index) => (
+                                <Link 
+                                    key={index}
+                                    href={item.url}
+                                    onClick={() => closeSideMenu()}
+                                    className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
+                                >
+                                    {item.icon}
+                                    <span className='ml-3'>{item.title}</span>
+                                </Link>
+                            ))
+                        }
+
+                        <button 
+                            onClick={() => {
+                                onLogout(),
+                                closeSideMenu()
+                            }}
+                            className='flex w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'>
+                            <IoLogOutOutline />
+                            <span className='ml-3'>Logout</span>    
+                        </button>
+                    </>
+                    
+                )
             }
-          
+
             {/* Line separatos */}
             <div className='w-full h-px bg-gray-200 my-5'/>
 
             {
-                adminLinks.map((item, index) => (
-                    <Link 
-                        key={index}
-                        href={item.url}
-                        className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
-                    >
-                        {item.icon}
-                        <span className='ml-3'>{item.title}</span>
-                    </Link>
-                ))
+                isAdmin && (
+
+                    adminLinks.map((item, index) => (
+                        <Link 
+                            key={index}
+                            href={item.url}
+                            className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
+                        >
+                            {item.icon}
+                            <span className='ml-3'>{item.title}</span>
+                        </Link>
+                    ))
+                )
             }
         </nav>
     </div>

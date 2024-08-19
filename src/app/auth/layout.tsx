@@ -1,20 +1,18 @@
-import { headers } from "next/headers";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
 
-
-
-export default function AuthLayout({
+export default async function AuthLayout({
  children
 }: {
  children: React.ReactNode;
 }) {
-
-
-  const heads = headers()
  
-  const pathname = heads.get('x-url')
+  const session = await auth();
 
-  console.log({pathname}, 'holaaaaaaaaaaaaaaa')
- 
+  if( session?.user ) {
+    redirect('/');
+  }
+
   return (
     <div className="flex justify-center">
       <div className="w-full sm:w-[350px] pyx10">

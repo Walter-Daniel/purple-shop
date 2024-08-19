@@ -57,3 +57,7 @@ body {
 .btn-secondary {
   @apply bg-black text-white py-2 px-4 rounded ;
 }
+
+.btn-disabled {
+  @apply bg-gray-600 text-white py-2 px-4 rounded transition-all;
+}

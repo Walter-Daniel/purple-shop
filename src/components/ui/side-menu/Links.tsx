@@ -1,6 +1,5 @@
 import {
     IoLogInOutline,
-    IoLogOutOutline,
     IoPeopleOutline,
     IoPersonOutline,
     IoShirtOutline,
@@ -11,23 +10,13 @@ import {
 export const userLinks = [
     {
         title: 'Profile',
-        url: '/',
+        url: '/profile',
         icon: <IoPersonOutline />
     },
     {
         title: 'Orders',
         url: '/',
         icon: <IoTicketOutline />
-    },
-    {
-        title: 'Sign in',
-        url: '/',
-        icon: <IoLogInOutline />
-    },
-    {
-        title: 'Logout',
-        url: '/',
-        icon: <IoLogOutOutline />
     }
 ]
 
