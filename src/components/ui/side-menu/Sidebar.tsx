@@ -3,8 +3,9 @@
 import { userUiStore } from '@/store';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { IoCloseOutline, IoSearchOutline } from 'react-icons/io5';
+import { IoCloseOutline, IoLogOutOutline, IoSearchOutline } from 'react-icons/io5';
 import { userLinks, adminLinks } from './Links';
+import { logout } from '@/actions';
 
 export const Sidebar = () => {
 
@@ -65,6 +66,7 @@ export const Sidebar = () => {
                     <Link 
                         key={index}
                         href={item.url}
+                        onClick={() => closeSideMenu()}
                         className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
                     >
                         {item.icon}
@@ -72,7 +74,14 @@ export const Sidebar = () => {
                     </Link>
                 ))
             }
-          
+            
+            <button 
+                onClick={() => logout()}
+                className='flex w-full items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'>
+                <IoLogOutOutline />
+                <span className='ml-3'>Logout</span>    
+                </button>
+
             {/* Line separatos */}
             <div className='w-full h-px bg-gray-200 my-5'/>
 
