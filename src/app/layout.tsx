@@ -2,6 +2,9 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { inter } from '@/config/fonts';
 import { Provider } from '@/components';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const metadata: Metadata = {
   title: {
@@ -21,7 +24,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <Provider>
           {children}
+        <ToastContainer />
         </Provider>
+
       </body>
     </html>
   );
