@@ -1,12 +1,9 @@
 import { Title } from "@/components";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 import { ProductsInCart } from "./_components/ProductsInCart";
 import { OrderSummary } from "./_components/OrderSummary";
 
 export default function CartPage() {
-
-  // redirect('/empty')
 
   return (
     <div className='flex justify-center items-center mb-72 px-10 sm:px-0'>
@@ -26,7 +23,6 @@ export default function CartPage() {
             <h2 className="text-xl mb-2">Order Summary</h2>
             <OrderSummary />
             
-
             <div className="mt-5 mb-2 w-full">
               <Link 
                 className="flex btn-primary justify-center"
