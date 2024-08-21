@@ -6,21 +6,25 @@ import { useFormState, useFormStatus } from "react-dom";
 import clsx from "clsx";
 import { IoInformationCircle } from "react-icons/io5";
 import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
 
-  const router = useRouter();
-    const [state, dispatch] = useFormState(authenticate, undefined);
+  const [state, dispatch] = useFormState(authenticate, undefined);
 
-    console.log({state})
+  const searchParams = useSearchParams()
+  const params = searchParams.get("origin")
 
-    useEffect(() => {
-      if( state === 'Success' ){
-        window.location.replace('/');
-      }
-    }, [state])
+  console.log({state})
+ 
+  useEffect(() => {
     
+    if (state === "Success") {
+      if(!!params) return window.location.replace(params)
+      window.location.replace("/")
+    }
+    
+  }, [state]);
 
   return (
     <form action={dispatch} className="flex flex-col">

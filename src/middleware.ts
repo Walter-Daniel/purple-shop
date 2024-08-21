@@ -1,15 +1,9 @@
-import { NextResponse } from 'next/server';
+import NextAuth from 'next-auth';
+import { authConfig } from './auth';
+ 
+export default NextAuth(authConfig).auth;
 
-export function middleware(request: Request) {
-
-  // Store current request url in a custom header, which you can read later
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('x-url', request.url);
-
-  return NextResponse.next({
-    request: {
-      // Apply new request headers
-      headers: requestHeaders,
-    }
-  });
+export const config = {
+  //https://clerk.com/docs/references/nextjs/auth-middleware#usage
+  matcher: '/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)'
 }

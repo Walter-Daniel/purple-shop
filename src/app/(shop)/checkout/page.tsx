@@ -86,11 +86,9 @@ export default function CheckoutPage() {
 
               <Link 
                 className="flex btn-primary justify-center"
-                href='/orders/123' >Confirm order</Link>
+                href='/orders/123' >Confirm order
+              </Link>
             </div>
-
-
-
           </div>
         </div>
       </div>
