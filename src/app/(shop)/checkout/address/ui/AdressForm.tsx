@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { Address, Country } from '@/interfaces';
 import { useAddressStore } from '@/store';
 import { deleteUserAddress, setUserAddress } from '@/actions';
+import { useRouter } from 'next/navigation';
 
 interface FormInputs {
     firstName: string;
@@ -28,6 +29,7 @@ interface Props {
 
 export const AdressForm = ({ countries, userStoreAddress = {} }: Props) => {
 
+    const router = useRouter();
 
     const { handleSubmit, register, formState: { isValid }, reset } = useForm<FormInputs>({
         defaultValues:{
@@ -49,15 +51,17 @@ export const AdressForm = ({ countries, userStoreAddress = {} }: Props) => {
       }
     }, [getAddress.firstName])
 
-    const onSubmit = ( data: FormInputs ) => {
+    const onSubmit = async( data: FormInputs ) => {
         setAddress(data);
         const { rememberAddress, ...restAddress } = data;
 
         if( data.rememberAddress )  {
-          setUserAddress(restAddress, session!.user.id)
+          await setUserAddress(restAddress, session!.user.id)
         }else {
-          deleteUserAddress(session!.user.id)
+          await deleteUserAddress(session!.user.id)
         }
+
+        router.push('/checkout')
     };
 
   return (
