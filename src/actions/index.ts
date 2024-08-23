@@ -9,6 +9,8 @@ export { registerUser } from './auth/register';
 export { getCountries }from './country/getCountries';
 
 export { placeOrder } from './order/place-order';
+export { getOrderById} from './order/get-order-by-id';
+export { getOrdersByUser } from './order/get-orders-by-user';
 
 export { getPaginatedProductWithImages } from './products/product-pagination';
 export { getProductBySlug } from './products/get-product-slug';

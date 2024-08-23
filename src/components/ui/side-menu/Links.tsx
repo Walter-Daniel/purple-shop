@@ -15,7 +15,7 @@ export const userLinks = [
     },
     {
         title: 'Orders',
-        url: '/',
+        url: '/orders',
         icon: <IoTicketOutline />
     }
 ]
@@ -26,11 +26,11 @@ export const adminLinks = [
         url: '/',
         icon: <IoShirtOutline />
     },
-    {
-        title: 'Orders',
-        url: '/',
-        icon: <IoTicketOutline />
-    },
+    // {
+    //     title: 'Orders',
+    //     url: '/',
+    //     icon: <IoTicketOutline />
+    // },
     {
         title: 'Users',
         url: '/',
