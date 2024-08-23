@@ -23,13 +23,11 @@ export const authConfig = {
   },
   callbacks: {
     authorized({ auth, request: { nextUrl } }) {
-      console.log({nextUrl});
       const isLoggedIn = !!auth?.user;
 
       // const isOnDashboard = nextUrl.pathname.startsWith('/dashboard');
       const authRoutes = authenticatedRoutes.some( item => nextUrl.pathname.includes(item) ) 
       const checkoutRoutes = checkoutAddressRoute.some( item => nextUrl.pathname.includes(item) ) 
-      // console.log({routesMatch})
 
       if (authRoutes && isLoggedIn) {
         return Response.redirect(new URL('/', nextUrl));

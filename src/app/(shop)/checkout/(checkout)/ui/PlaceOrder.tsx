@@ -1,13 +1,16 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import clsx from 'clsx';
+import { toast } from 'react-toastify';
 
 import { currencyFormat } from '@/utils';
 import { useAddressStore, useCartStore } from '@/store';
+import { placeOrder } from '@/actions';
 
 export const PlaceOrder = () => {
-
+    const router = useRouter();
     const [loaded, setLoaded] = useState(false);
     const [isPlacingOrder, setIsPlacingOrder] = useState(false);
     
@@ -15,7 +18,8 @@ export const PlaceOrder = () => {
 
     const { itemsInCart, subTotal, tax, total } = useCartStore(state => state.getSummaryInformation());
 
-    const cart = useCartStore(state => state.cart)
+    const cart = useCartStore(state => state.cart);
+    const clearCart = useCartStore(state => state.clearCart);
 
     useEffect(() => {
         setLoaded(true)
@@ -23,7 +27,6 @@ export const PlaceOrder = () => {
 
     const onPlaceOrder = async() => {
         setIsPlacingOrder(true);
-        // await sleep(2);
         
         const productsToOrder = cart.map( product => ({
             productId: product.id,
@@ -31,13 +34,23 @@ export const PlaceOrder = () => {
             size: product.size
         }));
         
-        console.log({address, productsToOrder})
-        setIsPlacingOrder(false)
+        const resp = await placeOrder(productsToOrder,address);
+
+        //!Server Action
+        if(!resp.ok){
+          setIsPlacingOrder(false);
+          toast.error(resp.message)
+        }
+
+        //* Ok!
+        clearCart();
+        router.replace('/orders/' + resp.order!.id)
     }
     
     if(!loaded){
-        return <p>Cargando...</p>
+        return <p>Loading..</p>
     }
+    
 
   return (
     <div className="bg-white rounded-xl shadow-xl p-7">
