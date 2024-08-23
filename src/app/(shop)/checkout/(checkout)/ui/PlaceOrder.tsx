@@ -5,6 +5,8 @@ import clsx from 'clsx';
 
 import { currencyFormat } from '@/utils';
 import { useAddressStore, useCartStore } from '@/store';
+import { placeOrder } from '@/actions';
+import { toast } from 'react-toastify';
 
 export const PlaceOrder = () => {
 
@@ -23,7 +25,6 @@ export const PlaceOrder = () => {
 
     const onPlaceOrder = async() => {
         setIsPlacingOrder(true);
-        // await sleep(2);
         
         const productsToOrder = cart.map( product => ({
             productId: product.id,
@@ -32,12 +33,21 @@ export const PlaceOrder = () => {
         }));
         
         console.log({address, productsToOrder})
-        setIsPlacingOrder(false)
+
+        const resp = await placeOrder(productsToOrder,address);
+
+        //!Server Action
+        if(!resp.ok){
+          setIsPlacingOrder(false);
+          toast.error(resp.message)
+        }
+
     }
     
     if(!loaded){
         return <p>Cargando...</p>
     }
+    
 
   return (
     <div className="bg-white rounded-xl shadow-xl p-7">
