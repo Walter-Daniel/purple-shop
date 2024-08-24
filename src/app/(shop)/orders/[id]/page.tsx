@@ -1,4 +1,4 @@
-import { Title } from "@/components";
+import { PaypalButton, Title } from "@/components";
 import { initialData } from "@/seed/seed";
 import clsx from "clsx";
 import Image from "next/image";
@@ -99,21 +99,7 @@ export default async function OrderByIdPage({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              <div
-                className={clsx(
-                  "flex items-center rounded-lg py-2 px-3.5 text-sm font-bold text-white mb-5",
-                  {
-                    "bg-red-500": !order.isPaid,
-                    "bg-green-700": order.isPaid,
-                  }
-                )}
-              >
-                <IoCardOutline size={30} />
-                {/* <span className="mx-2">Payment pending</span> */}
-                <span className="mx-2 ">
-                  {order.isPaid ? 'Paid order': 'Unpaid order'}
-                </span>
-              </div>
+              <PaypalButton />
 
               <Link
                 href="/"
