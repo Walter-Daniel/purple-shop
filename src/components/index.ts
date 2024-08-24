@@ -3,6 +3,8 @@ export * from './ui/products-grid/ProductsGridItem';
 
 export * from './provider/Provider';
 
+export * from './paypal/PaypalButton'
+
 export * from './product/slideshow/ProductSlideShow';
 export * from './product/slideshow/ProductMobileSlideShow';
 
