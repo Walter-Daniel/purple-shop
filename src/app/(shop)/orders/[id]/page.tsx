@@ -1,12 +1,11 @@
-import { PaypalButton, Title } from "@/components";
-import { initialData } from "@/seed/seed";
-import clsx from "clsx";
+import { OrderStatus, PaypalButton, Title } from "@/components";
 import Image from "next/image";
-import { IoArrowBackCircleOutline, IoCardOutline } from "react-icons/io5";
+import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { getOrderById } from "@/actions";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { currencyFormat } from "@/utils";
+import clsx from "clsx";
 
 interface Props {
   params: {
@@ -30,21 +29,7 @@ export default async function OrderByIdPage({ params }: Props) {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
           {/* CHECKOUT */}
           <div className="flex flex-col mt-5">
-          <div
-                className={clsx(
-                  "flex items-center rounded-lg py-2 px-3.5 text-sm font-bold text-white mb-5",
-                  {
-                    "bg-red-500": !order.isPaid,
-                    "bg-green-700": order.isPaid,
-                  }
-                )}
-              >
-                <IoCardOutline size={30} />
-                <span className="mx-2 ">
-                  {order.isPaid ? 'Paid order': 'Unpaid order'}
-                </span>
-              </div>
-
+            <OrderStatus isPaid={order.isPaid}/>
             {/* ITEMS */}
             {order.OrderItem.map((item) => (
               <div key={item.product.slug + '-' + item.size} className="flex mb-7">
@@ -68,7 +53,11 @@ export default async function OrderByIdPage({ params }: Props) {
             ))}
           </div>
           {/* ORDER SUMMARY */}
-          <div className="bg-white rounded-xl shadow-xl p-7">
+          <div className={clsx({
+            'bg-white rounded-xl shadow-xl p-7 h-[600px]': order.isPaid,
+            'bg-white rounded-xl shadow-xl p-7 h-[665px]': !order.isPaid
+          })}>
+            
             <h2 className="text-xl mb-2 font-bold">Shipping Address</h2>
             <div className="mb-10">
               <p className="text-lg">{address.firstName} {address.lastName}</p>
@@ -82,7 +71,7 @@ export default async function OrderByIdPage({ params }: Props) {
             {/* DIVIDER */}
             <div className="w-full h-0.5 bg-gray-200 mb-10" />
 
-            <h2 className="text-xl mb-2">Order Summary</h2>
+            <h2 className="text-xl mb-2 font-bold">Order Summary</h2>
 
             <div className="grid grid-cols-2">
               <span>Products</span>
@@ -99,8 +88,16 @@ export default async function OrderByIdPage({ params }: Props) {
             </div>
 
             <div className="mt-5 mb-2 w-full">
-              <PaypalButton />
-
+              {
+                order.isPaid ? (
+                  <OrderStatus isPaid={order.isPaid}/>
+                ):(
+                  <PaypalButton 
+                    amount={order.total}
+                    orderId={order.id}
+                  />
+                )
+              }
               <Link
                 href="/"
                 className="font-semibold flex justify-end items-center gap-2 text-sm"
