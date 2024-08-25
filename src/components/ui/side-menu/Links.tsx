@@ -26,11 +26,11 @@ export const adminLinks = [
         url: '/',
         icon: <IoShirtOutline />
     },
-    // {
-    //     title: 'Orders',
-    //     url: '/',
-    //     icon: <IoTicketOutline />
-    // },
+    {
+        title: 'Orders',
+        url: '/admin/orders',
+        icon: <IoTicketOutline />
+    },
     {
         title: 'Users',
         url: '/',

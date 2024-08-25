@@ -87,7 +87,6 @@ export const Sidebar = () => {
 
             {
                 isAuthenticated && (
-
                     <>
                         {
                             userLinks.map((item, index) => (
@@ -126,6 +125,7 @@ export const Sidebar = () => {
                     adminLinks.map((item, index) => (
                         <Link 
                             key={index}
+                            onClick={() => closeSideMenu()}
                             href={item.url}
                             className='flex items-center mt-5 p-2 hover:bg-gray-100 rounded transition-all'
                         >
