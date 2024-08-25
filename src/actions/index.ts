@@ -8,6 +8,8 @@ export * from './auth/login';
 export * from './auth/logout';
 export { registerUser } from './auth/register';
 
+export { getPaginatedProductInCart } from './cart/get-pagination-cart';
+
 export { getCountries }from './country/getCountries';
 
 export { placeOrder } from './order/place-order';

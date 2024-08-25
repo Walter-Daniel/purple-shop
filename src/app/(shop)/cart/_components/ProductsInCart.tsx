@@ -2,9 +2,12 @@
 
 import Image from 'next/image';
 import { useCartStore } from '@/store';
-import { QuantitySelector } from '@/components';
+import { Pagination, QuantitySelector } from '@/components';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { getPaginatedProductInCart } from '@/actions';
+import { useSearchParams } from 'next/navigation'
+
 
 export const ProductsInCart = () => {
 
@@ -12,6 +15,19 @@ export const ProductsInCart = () => {
     const productsInCart = useCartStore(state => state.cart);
     const updateProductQuantity = useCartStore(state => state.updateProductQuantity);
     const removeProduct = useCartStore(state => state.removeProduct);
+
+    
+    const searchParams = useSearchParams();
+    const [page, setPage] = useState(1);
+    
+    useEffect(() => {
+        const page = searchParams.get('page');
+        if (page) {
+            setPage(Number(page));
+        }
+    }, [searchParams]);
+    
+    const { currentPage, products, totalPages } = getPaginatedProductInCart({productsInCart, page });
 
     useEffect(() => {
         setLoaded(true)
@@ -24,7 +40,7 @@ export const ProductsInCart = () => {
     return (
         <>
             {
-                productsInCart.map(product => (
+                products.map(product => (
                     <div key={`${product.slug}-${product.size}`} className="flex mb-7">
                         <Image
                             src={`/products/${product.image}`}
@@ -58,6 +74,7 @@ export const ProductsInCart = () => {
                     </div>
                 ))
             }
+            <Pagination totalPages={totalPages}/>
 
         </>
     )
