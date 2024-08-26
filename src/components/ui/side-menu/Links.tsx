@@ -33,7 +33,7 @@ export const adminLinks = [
     },
     {
         title: 'Users',
-        url: '/',
+        url: '/admin/users',
         icon: <IoPeopleOutline />
     },
 ]
