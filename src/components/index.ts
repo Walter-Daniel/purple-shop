@@ -22,4 +22,6 @@ export * from './ui/top-menu/TopMenu';
 export * from './ui/footer/Footer';
 export * from './ui/pagination/Pagination';
 
+export * from './ui/modal/Modal';
+
 

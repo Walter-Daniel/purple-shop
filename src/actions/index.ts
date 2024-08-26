@@ -23,3 +23,4 @@ export { getProductBySlug } from './products/get-product-slug';
 export { getStockBySlug } from './products/get-stock-by-slug';
 
 export { getPaginatedUsers } from './user/get-paginated-users';
+export {} from './user/update-user-data'

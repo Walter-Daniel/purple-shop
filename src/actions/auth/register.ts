@@ -14,7 +14,6 @@ export const registerUser = async( name:string, email:string, password:string ) 
         })
 
         if(userExist){
-            //throw new Error("User with this email already exist");
             return { 
                 ok: false,
                 message: "User with this email already exist" 

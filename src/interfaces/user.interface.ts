@@ -4,6 +4,8 @@ export interface User {
   email: string;
   emailVerified?: Date | null;
   password: string;
-  role: string;
+  role: Role;
   image?: string | null;
 }
+
+type Role = 'admin' | 'user';

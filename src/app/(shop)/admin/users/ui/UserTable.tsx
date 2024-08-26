@@ -3,12 +3,25 @@
 import Link from 'next/link';
 import { IoCardOutline } from 'react-icons/io5';
 import { User } from '@/interfaces';
+import { useSearchParams } from 'next/navigation';
+import { Modal } from '@/components';
+import { UserForm } from './UserForm';
+import { HiPencilSquare } from 'react-icons/hi2';
+import { useState } from 'react';
 
 interface Props {
     users: User[];
 }
 
 export const UsersTable = ({users}:Props) => {
+  const searchParams = useSearchParams();
+  const show = searchParams.get('show');
+  const [userSelected, setUserSelected] = useState<User|null>(null);
+
+  const handleClick = (user:User) => {
+    setUserSelected(user)
+  }
+
   return (
     <table className="min-w-full">
           <thead className="bg-gray-200 border-b">
@@ -46,7 +59,10 @@ export const UsersTable = ({users}:Props) => {
                     {user.role}
                   </td>
                   <td className="text-sm text-gray-900 font-light px-6 ">
-                   Botones
+                  <Link href="/admin/users?show=true" onClick={() => handleClick(user)}>
+                    <HiPencilSquare className='text-2xl' />
+                  </Link>
+                  {show && userSelected && <UserForm {...userSelected}/>}
                   </td>
                 </tr>
               ))
