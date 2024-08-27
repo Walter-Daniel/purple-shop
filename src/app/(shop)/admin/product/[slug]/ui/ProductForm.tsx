@@ -1,12 +1,13 @@
 "use client";
 
+import { createUpdateProduct } from "@/actions/products/create-update-product";
 import { Category, Product, ProductImage } from "@/interfaces";
 import clsx from "clsx";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 interface Props {
-  product: Product & { Images?:ProductImage[] };
+  product: Partial<Product> & { Images?:ProductImage[] };
   categories: Category[];
 }
 
@@ -37,7 +38,7 @@ export const ProductForm = ({ product, categories }: Props) => {
   } = useForm<FormInputs>({
     defaultValues: {
       ...product,
-      tags: product.tags.join(', '),
+      tags: product.tags?.join(', '),
       sizes: product.sizes ?? []
     }
   }); 
@@ -53,7 +54,28 @@ export const ProductForm = ({ product, categories }: Props) => {
   }
 
   const onSubmit = async(data:FormInputs) => {
-    console.log({data});
+
+    const formData = new FormData();
+    const { ...productToSave } = data;
+
+    if(product.id){
+      formData.append('id', product.id ?? '');
+    }
+
+    formData.append('title', productToSave.title);
+    formData.append('slug', productToSave.slug);
+    formData.append('description', productToSave.description);
+    formData.append('price', productToSave.price.toString());
+    formData.append('inStock', productToSave.inStock.toString());
+    formData.append('sizes', productToSave.sizes.toString());
+    formData.append('tags', productToSave.tags);
+    formData.append('categoryId', productToSave.categoryId);
+    formData.append('gender', productToSave.gender);
+
+    const resp = await createUpdateProduct(formData);
+
+    console.log(resp)
+
   }
 
   return (
@@ -121,6 +143,10 @@ export const ProductForm = ({ product, categories }: Props) => {
 
       {/* Selector de tallas y fotos */}
       <div className="w-full">
+        <div className="flex flex-col mb-2">
+          <span>Stock</span>
+          <input type="number" className="p-2 border rounded-md bg-gray-200" {...register("inStock")}/>
+        </div>
         {/* As checkboxes */}
         <div className="flex flex-col">
 

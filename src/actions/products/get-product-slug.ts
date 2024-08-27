@@ -6,12 +6,7 @@ export const getProductBySlug = async(slug:string)=> {
     try {
         const product = await prisma.product.findFirst({
             include:{
-                Images: {
-                    select:{
-                        url: true,
-                        id: true
-                    }
-                }
+                Images: true 
             },
             where:{
                 slug: slug
