@@ -72,7 +72,7 @@ export default async function ProductsPage({searchParams}:Props) {
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{product.id.split('-').at(-1)}</td>
                   <td className="text-sm  text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     <Link 
-                      href={`/admin/products/${product.slug}`}
+                      href={`/admin/product/${product.slug}`}
                       className='hover:underline'
                     >
                       {product.title}              
