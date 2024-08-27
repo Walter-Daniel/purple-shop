@@ -5,7 +5,13 @@ import { User } from "@/interfaces";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-export const updateUserData = async(userId: string, data: User) => {
+interface Data {
+    name: string;
+    email: string;
+    role: 'admin' | 'user';
+};
+
+export const updateUserData = async(userId: string, data: Data) => {
 
     const session = await auth();
 
@@ -25,19 +31,14 @@ export const updateUserData = async(userId: string, data: User) => {
                 name: data.name,
                 email: data.email,
                 role: data.role,
-                password: data.password
             }
         });
-
-        // revalidatePath('/admin/users');
-        // revalidatePath('http://localhost:3000/admin/users?show=true');
         
         return {
             ok: true,
             message: 'User update successfully.'
         }
     } catch (error) {
-        console.log(error)
         return {
             ok: false,
             message: 'User update error'
