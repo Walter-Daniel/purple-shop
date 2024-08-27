@@ -9,7 +9,7 @@ export interface Product {
     tags: string[];
     title: string;
     // type: ValidTypes;
-    gender: Category;
+    gender: GenderCategory;
 }
 
 export interface CartProduct {
@@ -22,6 +22,12 @@ export interface CartProduct {
     title: string;
 }
 
+export interface ProductImage {
+    id: number;
+    url: string;
+    productId?: string;
+}
+
 export type Size = 'XS'|'S'|'M'|'L'|'XL'|'XXL'|'XXXL';
 type Types = 'shirts'|'pants'|'hoodies'|'hats';
-export type Category = 'men'|'women'|'kid'|'unisex'
+export type GenderCategory = 'men'|'women'|'kid'|'unisex'

@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { useRouter } from "next/navigation";
 import { MdCancel } from "react-icons/md";
@@ -13,7 +13,7 @@ export const Modal = ({children, title}: Props) => {
 
   return (
     <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
-      <div className="p-8 border w-96 shadow-lg rounded-md bg-white relative">
+      <div className="fade-in p-8 border w-96 shadow-lg rounded-md bg-white relative ">
             <MdCancel
             height={30}
             onClick={router.back}

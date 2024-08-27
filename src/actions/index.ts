@@ -18,6 +18,7 @@ export { getPaginatedOrders } from './order/get-paginated-orders';
 export { setTransactionId } from './payments/set-transaction-id';
 export { paypalCheckPayment } from './payments/paypal-check-payment';
 
+export { getCategories } from './products/get-categories';
 export { getPaginatedProductWithImages } from './products/product-pagination';
 export { getProductBySlug } from './products/get-product-slug';
 export { getStockBySlug } from './products/get-stock-by-slug';

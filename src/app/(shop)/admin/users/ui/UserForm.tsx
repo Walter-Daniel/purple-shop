@@ -9,11 +9,11 @@ import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { userValidationSchema } from "../schema/updateValidation";
 import { useRouter } from "next/navigation";
+import { toast } from "react-toastify";
 
 type FormInputs = {
   name: string;
   email: string;
-  password: string;
   role: 'admin' | 'user';
 };
 
@@ -22,7 +22,6 @@ export const UserForm = (user:User) => {
   const defaultValues = {
     name: user.name,
     email: user.email,
-    password: user.password,
     role: user.role,
     id: user.id
   }
@@ -46,21 +45,18 @@ export const UserForm = (user:User) => {
 
   
   const onSubmit: SubmitHandler<FormInputs> = async (data) => {
-    console.log('se hizo el submit')
-
     const newData = {
       ...data,
       id
     }
     const resp = await updateUserData( id, newData );
-    // if(resp.ok){
-    //   router.refresh();
-    // }
-   if(resp.ok){
+    if(!resp.ok){
+      toast.error(resp.message);
+      return;
+    }
     !!isChanged;
     router.refresh();
-   }
-
+    toast.success(resp.message)
   
   };
 
@@ -99,23 +95,6 @@ export const UserForm = (user:User) => {
           />
           <p role="alert" className="text-red-500">
             {errors.email?.message}
-          </p>
-
-          {/********************* PASSWORD  ***********************/}
-
-          <label htmlFor="password" className="mt-5">
-            Password
-          </label>
-          <input
-            className={clsx("px-5 py-2 border bg-gray-200 rounded", {
-              "border-red-500": errors.password,
-              "border-gray-400": !errors.password,
-            })}
-            type="password"
-            {...register("password")}
-          />
-          <p role="alert" className="text-red-500">
-            {errors.password?.message}
           </p>
 
           {/********************* ROLE  ***********************/}
