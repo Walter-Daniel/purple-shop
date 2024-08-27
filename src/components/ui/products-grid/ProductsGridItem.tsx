@@ -1,5 +1,5 @@
+import { ProductImage } from '@/components/product/product-image/ProductImage';
 import { Product } from '@/interfaces'
-import Image from 'next/image';
 import Link from 'next/link';
 
 interface Props {
@@ -11,8 +11,8 @@ export const ProductsGridItem = ( { product } : Props ) => {
     <div className='flex flex-col'>
         <div className='rounded-md  fade-in overflow-hidden min-h-[80%] shadow-sm'>
             <Link href={`/product/${product.slug}`} className=' overflow-hidden'>
-                <Image
-                    src={`/products/${ product.images[0] }`}
+                <ProductImage
+                    src={ product.images[0]}
                     alt={ product.title } 
                     className='w-full object-cover rounded  transition duration-300 hover:scale-110 h-full'
                     width={500}

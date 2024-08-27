@@ -4,7 +4,9 @@ import { createUpdateProduct } from "@/actions/products/create-update-product";
 import { Category, Product, ProductImage } from "@/interfaces";
 import clsx from "clsx";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 interface Props {
   product: Partial<Product> & { Images?:ProductImage[] };
@@ -23,11 +25,13 @@ interface FormInputs {
   tags: string;
   gender: 'men' | 'women' | 'kid' | 'unisex';
   categoryId: string;
+  images?: FileList;
 }
 
 
 export const ProductForm = ({ product, categories }: Props) => {
-
+  const router = useRouter();
+  
   const {
     handleSubmit,
     register,
@@ -39,7 +43,8 @@ export const ProductForm = ({ product, categories }: Props) => {
     defaultValues: {
       ...product,
       tags: product.tags?.join(', '),
-      sizes: product.sizes ?? []
+      sizes: product.sizes ?? [],
+      images: undefined,
     }
   }); 
 
@@ -55,8 +60,9 @@ export const ProductForm = ({ product, categories }: Props) => {
 
   const onSubmit = async(data:FormInputs) => {
 
+
     const formData = new FormData();
-    const { ...productToSave } = data;
+    const { images, ...productToSave } = data;
 
     if(product.id){
       formData.append('id', product.id ?? '');
@@ -72,9 +78,21 @@ export const ProductForm = ({ product, categories }: Props) => {
     formData.append('categoryId', productToSave.categoryId);
     formData.append('gender', productToSave.gender);
 
+    if ( images ) {
+      for ( let i = 0; i < images.length; i++  ) {
+        formData.append('images', images[i]);
+      }
+    }
+
+
     const resp = await createUpdateProduct(formData);
 
-    console.log(resp)
+    if(!resp.ok) {
+      toast.error(resp.message)
+    };
+    
+    toast.success(resp.message)
+    router.replace(`/admin/product/${ resp.product!.slug }`)
 
   }
 
@@ -175,12 +193,13 @@ export const ProductForm = ({ product, categories }: Props) => {
 
           <div className="flex flex-col mb-2">
 
-            <span>Fotos</span>
+            <span>Images</span>
             <input 
               type="file"
+              { ...register('images') }
               multiple 
               className="p-2 border rounded-md bg-gray-200" 
-              accept="image/png, image/jpeg"
+              accept="image/png, image/jpeg, image/avif"
             />
 
           </div>

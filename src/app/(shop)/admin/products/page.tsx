@@ -1,7 +1,6 @@
-import { getPaginatedOrders, getPaginatedProductWithImages } from '@/actions';
-import { Pagination, Title } from '@/components';
+import { getPaginatedProductWithImages } from '@/actions';
+import { Pagination, ProductImage, Title } from '@/components';
 import { currencyFormat } from '@/utils';
-import Image from 'next/image';
 
 import Link from 'next/link';
 
@@ -60,12 +59,14 @@ export default async function ProductsPage({searchParams}:Props) {
                 className="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
                   <td className="text-sm text-gray-900 font-light px-6 py-4 whitespace-nowrap">
                     <Link href={`/product/${product.slug}`}>
-                      <Image 
-                        src={`/products/${product.Images[0].url}`}
+                      <ProductImage 
+                        src={product.Images[0]?.url}
                         width={80}
                         height={80}
                         alt={product.title}
                         className='w-20 h-20 object-cover rounded'
+                      style={{width: "auto", height:"auto", objectFit:"cover"}}
+
                       />
                     </Link>
                   </td>
