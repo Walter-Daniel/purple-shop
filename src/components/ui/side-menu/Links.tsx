@@ -23,7 +23,7 @@ export const userLinks = [
 export const adminLinks = [
     {
         title: 'Products',
-        url: '/',
+        url: '/admin/products',
         icon: <IoShirtOutline />
     },
     {
