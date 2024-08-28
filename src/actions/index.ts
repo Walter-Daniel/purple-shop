@@ -22,6 +22,7 @@ export { getCategories } from './products/get-categories';
 export { getPaginatedProductWithImages } from './products/product-pagination';
 export { getProductBySlug } from './products/get-product-slug';
 export { getStockBySlug } from './products/get-stock-by-slug';
+export { deleteProductImage } from './products/delete-product-image';
 
 export { getPaginatedUsers } from './user/get-paginated-users';
 export { updateUserData } from './user/update-user-data';
