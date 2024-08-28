@@ -6,19 +6,16 @@ import { useFormState, useFormStatus } from "react-dom";
 import clsx from "clsx";
 import { IoInformationCircle } from "react-icons/io5";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 export const LoginForm = () => {
 
   const [state, dispatch] = useFormState(authenticate, undefined);
 
-  const searchParams = useSearchParams()
-  const params = searchParams.get("origin")
 
   useEffect(() => {
     
     if (state === "Success") {
-      if(!!params) return window.location.replace(params)
+      // if(!!params) return window.location.replace(params)
       window.location.replace("/")
     }
     

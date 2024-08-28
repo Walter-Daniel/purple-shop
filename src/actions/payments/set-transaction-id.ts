@@ -36,7 +36,6 @@ export const setTransactionId = async(transactionId: string, orderId: string) =>
         }
         
     } catch (error) {
-        console.log(error)
         return {
             ok: false,
             message: 'The transaction could not be completed.'

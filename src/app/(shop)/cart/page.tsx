@@ -1,11 +1,13 @@
-import { Title } from "@/components";
+import { Title, Loading } from "@/components";
 import Link from "next/link";
-import { ProductsInCart } from "./_components/ProductsInCart";
-import { OrderSummary } from "./_components/OrderSummary";
+import { ProductsInCart } from "./ui/ProductsInCart";
+import { OrderSummary } from "./ui/OrderSummary";
+import { Suspense } from "react";
 
 export default function CartPage() {
 
   return (
+    <Suspense fallback={<Loading />}>
     <div className='flex justify-center items-center mb-72 px-10 sm:px-0'>
       <div className="flex flex-col w-[1000px]">
         <Title title="Cart" />
@@ -32,5 +34,6 @@ export default function CartPage() {
         </div>
       </div>
     </div>
+    </Suspense>
   );
 }

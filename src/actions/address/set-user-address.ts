@@ -15,7 +15,6 @@ export const setUserAddress = async(address: Address, userId: string) => {
         }
 
     } catch (error) {
-        console.log(error);
         return {
             ok: false,
             message: 'Failed to save the address'
@@ -59,7 +58,6 @@ const createOrReplaceAddress = async(address: Address, userId: string) => {
         return updateAddress;
 
     } catch (error) {
-        console.log(error);
         throw new Error('Failed to save the address')
     }
 

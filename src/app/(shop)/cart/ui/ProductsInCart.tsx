@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import Image from 'next/image';
 import { useCartStore } from '@/store';
@@ -11,10 +11,10 @@ import { useSearchParams } from 'next/navigation'
 
 export const ProductsInCart = () => {
 
-    const [loaded, setLoaded] = useState(false)
-    const productsInCart = useCartStore(state => state.cart);
     const updateProductQuantity = useCartStore(state => state.updateProductQuantity);
     const removeProduct = useCartStore(state => state.removeProduct);
+    
+    const productsInCart = useCartStore(state => state.cart);
 
     
     const searchParams = useSearchParams();
@@ -28,14 +28,6 @@ export const ProductsInCart = () => {
     }, [searchParams]);
     
     const { currentPage, products, totalPages } = getPaginatedProductInCart({productsInCart, page });
-
-    useEffect(() => {
-        setLoaded(true)
-    }, [])
-    
-    if(!loaded){
-        return <h2>loading...</h2>
-    }
 
     return (
         <>
@@ -75,7 +67,6 @@ export const ProductsInCart = () => {
                 ))
             }
             <Pagination totalPages={totalPages}/>
-
         </>
     )
 }

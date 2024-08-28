@@ -40,7 +40,6 @@ export const deleteProductImage = async(imageId:number, imageUrl: string) => {
         revalidatePath(`/product/${ deletedImage.product.slug }`);
 
     } catch (error) {
-        console.log(error)
         return {
             ok: false,
             message: 'Unable to delete the image.'
