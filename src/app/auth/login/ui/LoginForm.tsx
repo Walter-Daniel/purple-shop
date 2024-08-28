@@ -27,13 +27,18 @@ export const LoginForm = () => {
         <input
           className="px-5 py-2 border border-gray-400 bg-gray-200 rounded mb-5"
           type="email"
-          name="email" />
+          name="email" 
+          defaultValue="maria@email.com"
+          />
 
         <label htmlFor="email">Password</label>
         <input
           className="px-5 py-2 border border-gray-400 bg-gray-200 rounded mb-5"
           type="password" 
-          name="password"/>
+          name="password"
+          defaultValue="123456"
+          />
+
 
         <LoginButton />
 
