@@ -1,8 +1,30 @@
+import { Title } from '@/components';
+import { AdressForm } from './ui/AdressForm';
 
-export default function AdressPage() {
+import { getCountries, getUserAddress } from '@/actions';
+import { auth } from '@/auth';
+
+export default async function AddressPage() {
+
+  const countries = await getCountries();
+
+  const session = await auth();
+  if(!session?.user){
+    return (
+      <h3 className='text-5xl'>401 - User session Not Found</h3>
+    )
+  }
+  const userAddress = await getUserAddress(session.user.id) ?? undefined;
+
   return (
-    <div>
-      <h1>address Page</h1>
+    <div className="flex flex-col sm:justify-center sm:items-center mb-72 px-10 sm:px-0">
+      <div className="w-full  xl:w-[1000px] flex flex-col justify-center text-left">
+        
+        <Title title="Shipping"/>
+
+        <AdressForm countries={countries} userStoreAddress={userAddress}/>
+        
+      </div>
     </div>
   );
 }
