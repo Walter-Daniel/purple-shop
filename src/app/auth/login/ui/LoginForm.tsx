@@ -25,30 +25,28 @@ export const LoginForm = () => {
     <form action={dispatch} className="flex flex-col">
         <label htmlFor="email">Email</label>
         <input
-          className="px-5 py-2 border bg-gray-200 rounded mb-5"
+          className="px-5 py-2 border border-gray-400 bg-gray-200 rounded mb-5"
           type="email"
           name="email" />
 
         <label htmlFor="email">Password</label>
         <input
-          className="px-5 py-2 border bg-gray-200 rounded mb-5"
+          className="px-5 py-2 border border-gray-400 bg-gray-200 rounded mb-5"
           type="password" 
           name="password"/>
 
         <LoginButton />
 
-        <div
-          className="flex h-8 items-end space-x-1"
-          aria-live="polite"
-          aria-atomic="true"
-        >
           {state === 'Invalid credentials.' && (
-            <>
-              <IoInformationCircle className="h-5 w-5 text-red-500" />
-              <p className="text-sm text-red-500">{state}</p>
-            </>
+            <div
+              className="flex h-8 items-end space-x-1"
+              aria-live="polite"
+              aria-atomic="true"
+            >
+                  <IoInformationCircle className="h-5 w-5 text-red-500" />
+                  <p className="text-sm text-red-500">{state}</p>
+            </div>
           )}
-        </div>
 
         {/* divisor line */ }
         <div className="flex items-center my-3">
