@@ -33,7 +33,6 @@ export const createUpdateProduct = async( formData: FormData ) => {
     const productParsed = productSchema.safeParse( data );
   
     if ( !productParsed.success) {
-      console.log( productParsed.error );
       return {
         ok: false,
         message: 'Failed to save the product.'
@@ -111,7 +110,6 @@ export const createUpdateProduct = async( formData: FormData ) => {
         product: prismaTx.product
       }
     } catch (error) {
-      console.log(error)
       return {
         ok: false,
         message: 'Failed to save the product.'
@@ -130,7 +128,6 @@ const uploadImages = async(images: File[]) => {
   
         return cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`).then( r => r.secure_url );
       } catch (error) {
-        console.log(error);
         return null;
       }
     });
@@ -138,10 +135,7 @@ const uploadImages = async(images: File[]) => {
     return uploadedImages;
 
   } catch (error) {
-
-    console.log(error);
     return null;
-    
   }
 
 }

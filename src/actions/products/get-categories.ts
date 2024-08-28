@@ -11,7 +11,6 @@ export const getCategories = async() => {
             categories: categories
         }
     } catch (error) {
-        console.log(error);
         return {
             ok: false,
             message: 'No se pudo obtener categorías.'

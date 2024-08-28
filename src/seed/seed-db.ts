@@ -69,8 +69,6 @@ async function main() {
         })
 
     });
-
-    console.log('Seed ejecuted')
 }
 
 
