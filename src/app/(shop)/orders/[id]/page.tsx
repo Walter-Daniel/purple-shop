@@ -1,4 +1,4 @@
-import { OrderStatus, PaypalButton, Title } from "@/components";
+import { OrderStatus, PaypalButton, ProductImage, Title } from "@/components";
 import Image from "next/image";
 import { IoArrowBackCircleOutline } from "react-icons/io5";
 import { getOrderById } from "@/actions";
@@ -33,8 +33,8 @@ export default async function OrderByIdPage({ params }: Props) {
             {/* ITEMS */}
             {order.OrderItem.map((item) => (
               <div key={item.product.slug + '-' + item.size} className="flex mb-7">
-                <Image
-                  src={`/products/${item.product.Images[0].url}`}
+                <ProductImage
+                  src={item.product.Images[0]?.url}
                   alt={item.product.title}
                   height={100}
                   width={100}
