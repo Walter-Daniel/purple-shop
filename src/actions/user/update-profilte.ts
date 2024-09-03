@@ -7,8 +7,7 @@ import { revalidatePath } from "next/cache";
 interface Data {
     name: string;
     email: string;
-    image: string;
-    password: string;
+    // image: string;
 };
 
 export const updateUserProfile = async(userId: string, data: Data) => {
@@ -39,11 +38,14 @@ export const updateUserProfile = async(userId: string, data: Data) => {
             data: {
                 name: data.name,
                 email: data.email,
-                image: data.image,
-                password: data.password
+                // image: data.image
             }
         });
-        
+
+        revalidatePath(`/profile/${userId}`);
+        revalidatePath(`/profile`);
+        // revalidatePath(`/`);
+
         return {
             ok: true,
             message: 'User update successfully.'
