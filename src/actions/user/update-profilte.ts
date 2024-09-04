@@ -3,14 +3,36 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { v2 as cloudinary } from 'cloudinary';
+cloudinary.config( process.env.CLOUDINARY_URL ?? '' );
 
-interface Data {
-    name: string;
-    email: string;
-    // image: string;
-};
 
-export const updateUserProfile = async(userId: string, data: Data) => {
+
+const userSchema = z.object({
+    id: z.string().uuid().optional().nullable(),
+    name: z.string().min(3).max(255),
+    email: z.string().email(),
+  });
+
+
+export const updateUserProfile = async(formData:FormData) => {
+
+
+   
+
+    const data = Object.fromEntries( formData );
+    const userParsed = userSchema.safeParse( data );
+
+    if ( !userParsed.success) {
+        return {
+          ok: false,
+          message: 'Failed to update profile.'
+         }
+      }
+
+    const user = userParsed.data;
+    const { id, ...rest } = user;
 
     const session = await auth();
 
@@ -21,7 +43,7 @@ export const updateUserProfile = async(userId: string, data: Data) => {
         }
     }
 
-    const findId = userId === session.user.id;
+    const findId = id === session.user.id;
 
     if(!findId){
         return {
@@ -33,18 +55,33 @@ export const updateUserProfile = async(userId: string, data: Data) => {
     try {
         const user = await prisma.user.update({
             where: {
-                id: userId
+                id: id
             },
             data: {
-                name: data.name,
-                email: data.email,
-                // image: data.image
+                ...rest
             }
         });
 
-        revalidatePath(`/profile/${userId}`);
+        revalidatePath(`/profile/${id}`);
         revalidatePath(`/profile`);
-        // revalidatePath(`/`);
+        revalidatePath(`/`);
+
+
+        const imageFile = formData.get('image') as File;
+
+        if (imageFile) {
+          const image = await uploadImage(imageFile);
+          if (!image) {
+            throw new Error('Failed to load the image');
+          }
+          await prisma.userImage.create({
+              data: {
+                  url: image,
+                  userId: id
+              }
+          })
+        }
+
 
         return {
             ok: true,
@@ -58,3 +95,16 @@ export const updateUserProfile = async(userId: string, data: Data) => {
     }
 
 }
+
+const uploadImage = async (image: File) => {
+    try {
+      const buffer = await image.arrayBuffer();
+      const base64Image = Buffer.from(buffer).toString('base64');
+      
+      const uploadedImage = await cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`);
+      return uploadedImage.secure_url;
+    } catch (error) {
+      return null;
+    }
+  };
+  

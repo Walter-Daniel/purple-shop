@@ -51,8 +51,8 @@ model Product {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
-  Images ProductImage[]
-  OrderItem    OrderItem[]
+  Images    ProductImage[]
+  OrderItem OrderItem[]
 
   @@index([gender])
 }
@@ -72,12 +72,20 @@ model User {
   emailVerified DateTime?
   password      String
   role          Role      @default(user)
-  image         String?
 
   address UserAddress?
 
   // Relaciones
-  Order Order[]
+  Order     Order[]
+  UserImage UserImage[]
+}
+
+model UserImage {
+  id  Int    @id @default(autoincrement())
+  url String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model Country {
@@ -113,7 +121,7 @@ model Order {
   tax          Float
   total        Float
   itemsInOrder Int
-  isPaid       Boolean  @default(false)
+  isPaid       Boolean   @default(false)
   paidAt       DateTime?
 
   createdAt DateTime @default(now())

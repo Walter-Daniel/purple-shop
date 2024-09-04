@@ -1,37 +1,26 @@
 'use server';
 
-import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 
 export const getUserById = async(id:string) => {
-    const session = await auth();
-
-    if( session?.user.id !== id){
-        return {
-            ok: false,
-            message: 'Authentication is required.'
-        }
-    }
-
     try {
         const user = await prisma.user.findFirst({
+          include:{
+            UserImage: true
+          },
+           
            where:{
-                id: id
-           }
+              id: id
+            }
         });
 
-        if(!user){
-            throw new Error('User not found')
-        }
-    
+        if(!user) return null;
+
         return {
-            ok: true,
-            user: user
+            ...user,
+            image: user.UserImage.map( image => image.url )
         }
     } catch (error) {
-        return {
-            ok: false,
-            message: 'Error fetching user.'
-        }
+        throw new Error('Error al obtener el slug')
     }
 }
