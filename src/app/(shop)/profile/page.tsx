@@ -1,27 +1,23 @@
 import { auth } from "@/auth";
 import { Title } from "@/components";
+import Link from "next/link";
 import { redirect } from "next/navigation";
+import { CardProfile } from "./[id]/ui/CardProfile";
 
 export default async function ProfilePage() {
+  const session = await auth();
 
-    const session = await auth();
-
-    if(!session?.user){
-        // redirect('/auth/login?returnToperfil');
-        redirect('/');
-    }
-
+  if (!session?.user) {
+    // redirect('/auth/login?returnToperfil');
+    redirect("/");
+  }
+  const { user } = session;
+  console.log(user)
   return (
-    <div>
-        <Title title="Profile" />
+    <div className="min-h-screen">
+      <Title title="Profile" />
 
-
-        <pre>{
-            JSON.stringify( session.user, null, 2 )
-        }</pre>
-
-        <h3 className="text-3xl">{session.user.role}</h3>
-
+      <CardProfile />
     </div>
   );
 }

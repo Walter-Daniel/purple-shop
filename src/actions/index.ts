@@ -26,3 +26,5 @@ export { deleteProductImage } from './products/delete-product-image';
 
 export { getPaginatedUsers } from './user/get-paginated-users';
 export { updateUserData } from './user/update-user-data';
+export { updateUserProfile } from './user/update-profilte';
+export { getUserById } from './user/get-user-by-id'
