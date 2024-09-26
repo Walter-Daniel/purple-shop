@@ -10,8 +10,6 @@ type SearchParamProps = {
 };
 
 
-
-
 export default async function UsersPage({ searchParams }: SearchParamProps) {
   const { ok, users = [] } =  await getPaginatedUsers();
 
