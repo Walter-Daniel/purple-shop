@@ -51,8 +51,8 @@ model Product {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 
-  Images ProductImage[]
-  OrderItem    OrderItem[]
+  Images    ProductImage[]
+  OrderItem OrderItem[]
 
   @@index([gender])
 }
@@ -113,7 +113,7 @@ model Order {
   tax          Float
   total        Float
   itemsInOrder Int
-  isPaid       Boolean  @default(false)
+  isPaid       Boolean   @default(false)
   paidAt       DateTime?
 
   createdAt DateTime @default(now())

@@ -43,9 +43,12 @@ export const authConfig = {
       return true;
     },
 
-    jwt({ token, user }) {
-      if ( user ) {
-        token.data = user
+    jwt({ token, user, trigger, session }) {
+      if (trigger === "update" && session) {
+        // Update the token with the new session data
+        token.data = session.user;
+      } else if (user) {
+        token.data = user;
       }
       return token;
     },
