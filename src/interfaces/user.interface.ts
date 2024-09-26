@@ -5,13 +5,7 @@ export interface User {
   emailVerified?: Date | null;
   password: string;
   role: Role;
-  image: string | string[];
-}
-
-export interface UserImage {
-  id: number;
-  url: string;
-  userId: string;
+  image?: string | null;
 }
 
 type Role = 'admin' | 'user';

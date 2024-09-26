@@ -4,22 +4,16 @@ import { auth } from "@/auth";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
-import { v2 as cloudinary } from 'cloudinary';
-cloudinary.config( process.env.CLOUDINARY_URL ?? '' );
-
-
 
 const userSchema = z.object({
-    id: z.string().uuid().optional().nullable(),
+    id: z.string().uuid(),
     name: z.string().min(3).max(255),
     email: z.string().email(),
+    image: z.string().optional()
   });
 
 
 export const updateUserProfile = async(formData:FormData) => {
-
-
-   
 
     const data = Object.fromEntries( formData );
     const userParsed = userSchema.safeParse( data );
@@ -44,6 +38,8 @@ export const updateUserProfile = async(formData:FormData) => {
     }
 
     const findId = id === session.user.id;
+    
+    console.log({findId})
 
     if(!findId){
         return {
@@ -61,33 +57,14 @@ export const updateUserProfile = async(formData:FormData) => {
                 ...rest
             }
         });
-
-        revalidatePath(`/profile/${id}`);
-        revalidatePath(`/profile`);
-        revalidatePath(`/`);
-
-
-        const imageFile = formData.get('image') as File;
-
-        if (imageFile) {
-          const image = await uploadImage(imageFile);
-          if (!image) {
-            throw new Error('Failed to load the image');
-          }
-          await prisma.userImage.create({
-              data: {
-                  url: image,
-                  userId: id
-              }
-          })
-        }
-
-
+        revalidatePath('/profile');
         return {
             ok: true,
+            user: user,
             message: 'User update successfully.'
         }
     } catch (error) {
+        console.log({error})
         return {
             ok: false,
             message: 'User update error'
@@ -95,16 +72,3 @@ export const updateUserProfile = async(formData:FormData) => {
     }
 
 }
-
-const uploadImage = async (image: File) => {
-    try {
-      const buffer = await image.arrayBuffer();
-      const base64Image = Buffer.from(buffer).toString('base64');
-      
-      const uploadedImage = await cloudinary.uploader.upload(`data:image/png;base64,${base64Image}`);
-      return uploadedImage.secure_url;
-    } catch (error) {
-      return null;
-    }
-  };
-  
